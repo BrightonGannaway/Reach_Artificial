@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web SSH Terminal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+
+    <style>
+        /* css styling - terminal look */
+        body {
+            font-family: monospace;
+            background: #000;
+            color: #0f0;
+        }
+
+        #terminal {
+            white-space: pre-wrap; /* preserve spacing and line breaks */
+            background: #000;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll; /* scroll on output overflow */
+            border: 1px solid #444;
+        }
+
+        #controls {
+            margin-bottom: 10px;
+        }
+
+        input, button {
+            margin: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h2 stlye='text-align: center'> SSH WEB TERMINAL</h2>
+    
+    <!-- Input fields for SSH connection -->
+  <div id="controls">
+    <input id="host" placeholder="Host (e.g. 192.168.1.100)" />
+    <input id="port" type="number" value="22" />
+    <input id="username" placeholder="Username" />
+    <input id="password" type="password" placeholder="Password" />
+    <button id="connectButton" onclick="connectSSH()">Connect</button>
+    <button id="disconnectButton" onclick="disconnectSSH()">Disconnect</button>
+  </div>
+
+    <div id="terminal"></div>
+
+
+     <script src="/socket.io/socket.io.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.min.js"></script>
+
+     <script>
+
+        const socket = io(); //connect to server side socket 
+        const term = new Terminal(); //create new Xterm terminal
+        term.open(document.getElementById('terminal')) //render it in DOM
+        
+        // called when user clicks connect with custom emit of ssh-connect
+        function connectSSH() {
+            socket.emit('ssh-connect', {
+                host: document.getElementById('host').value,
+                port: Number(document.getElementById('port').value),
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+            });
+            //document.getElementById('connectButton').onclick = null;
+        }
+
+        //when server sends back ssh output
+        socket.on('data', (data) => {
+            term.write(data);
+        });
+
+        term.onData((data) => {
+            socket.emit('input', data);
+        });
+
+        //called to end the ssh session
+        function disconnectSSH() {
+            socket.emit('ssh-disconnect');
+            document.getElementById('connectButton').onclick = connectSSH();
+        }
+
+        //called when command is sent
+        function sendCommand(event) {
+            if (event.key === 'Enter') {
+                const cmd = document.getElementById('command').value + '\n';
+                socket.emit('input', cmd); //send commadn to server (us)
+                document.getElementById('command').value = ''; //clear
+            }
+        }
+
+        
+     </script>
+</body>
+</html>
