@@ -1,0 +1,133 @@
+        /* css styling - terminal look */
+        html, body {
+            font-family: monospace;
+            background: #272727;
+            height: 100%;
+            color: #62bd8e;
+            margin: 0;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        #terminal {
+            white-space: pre-wrap; /* preserve spacing and line breaks */
+            background: #787f8f;
+            padding: 5em;
+            height: 300px;
+            overflow-y: scroll; /* scroll on output overflow */
+            border: 1px solid #444;
+        }
+
+        #sentCommands {
+            margin-top: 0.5rem;
+            padding: 6px;
+            width: 90%;
+            align-items: center;
+            bottom: 32rem;
+        
+
+            border-radius: 1em;
+            background-color: #444;
+            border-style: solid;
+            border: none;
+            resize: none;
+
+            font-family: 'open sans';
+            font-size: large;
+
+            z-index: 2;
+
+        }
+
+        /* ::-webkit-scrollbar {
+            display: none;
+        } */
+        
+        .ConnectionButton {
+            border-radius: 0.5em;
+        }
+
+        #output {
+            white-space: pre-wrap;
+            padding-left: 6px;
+            overflow-x: auto;
+            margin: auto;
+            margin-bottom: 0.1rem;
+
+            display:inline-flex;
+
+
+            flex-grow: 1;
+            flex-direction: column;
+
+            max-width: 90%;
+            width: 90%;
+
+            align-items: center;
+            justify-content: center;
+
+            /* debugging purposes */
+            /* background-color: white; */
+
+            z-index: 1;
+
+
+        }
+
+        .output-block {
+            white-space: pre-wrap;
+            word-break: break-all;
+            overflow-wrap: break-word;
+            max-width: 100%;
+            width: 100%;
+
+            margin: 0, auto;
+
+        }
+
+        .output-block > pre {
+            text-align: left;
+        }
+
+
+        .FlexContainer {
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .FlexContainer > div {
+            margin: auto;
+            width: 90%;            
+        }
+
+        #controls {
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        input, button {
+            margin: 5px;
+            border-radius: 0.5em;
+            background-color: #444;
+            color: #b7b7b7;
+            border-style: solid;
+            border: none;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+        }
+
+        input[type=number] {
+            -moz-appearance:textfield; /* Firefox */
+        }
