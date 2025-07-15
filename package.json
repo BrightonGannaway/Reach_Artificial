@@ -1,10 +1,11 @@
 {
   "name": "reach_artificial",
   "version": "1.0.0",
+  "type": "commonjs",
   "description": "# Description",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -12,5 +13,8 @@
   "dependencies": {
     "express": "^5.1.0",
     "xterm": "^5.3.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
   }
 }
